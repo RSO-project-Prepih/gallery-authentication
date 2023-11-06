@@ -2,26 +2,30 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
+const { v4 } = require('uuid');
+const process = require('process');
 
 const register = asyncHandler(async(req, res) => {
-    const {name, surname, password} = req.body;
+    const {username, surname, password} = req.body;
+    const uuid = v4();
 
-    if (!name || !surname || !password) {
+    if (!username || !surname || !password) {
         return res.status(400).json({message: 'Please fill all fields'});
     }
 
-    /*
-    const userExists = await User.findOne({where: {surname: surname}})
+    
+    const userExists = await User.findOne({where: {username: username}});
     if (userExists) {
         return res.status(400).json({message: 'User already exists.'})
     }
-    */
+    
 
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await User.create({
-        name,
+        id: uuid,
+        username,
         surname,
         password: hashedPassword
     }).catch(err => {
@@ -31,9 +35,9 @@ const register = asyncHandler(async(req, res) => {
     if (user) {
         return res.status(201).json({
             _id: user.id,
-            name: user.name,
+            username: user.username,
             surname: user.surname,
-            token: generateToken(user._id)
+            token: generateToken(user.id)
         })
     }
     else {
@@ -42,15 +46,15 @@ const register = asyncHandler(async(req, res) => {
 });
 
 const login = asyncHandler(async(req, res) => {
-    const {email, password} = req.body
+    const {username, password} = req.body;
+    console.log(username);
 
-    const user = await User.findOne({email})
+    const user = await User.findOne({where: {username: username}}).catch(err => console.log(err));
 
     if (user && (await bcrypt.compare(password, user.password))) {
         return res.json({
             _id: user.id,
-            name: user.name,
-            email: user.email,
+            username: user.username,
             token: generateToken(user._id)
         })
     }

@@ -9,9 +9,7 @@ router.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-router.get('/login', (req, res) => {
-    res.send('Login');
-});
+router.post('/login', usersController.login);
 
 router.post('/register', usersController.register);
 
