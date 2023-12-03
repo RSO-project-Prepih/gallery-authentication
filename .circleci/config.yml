@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: node:20
+      - image: cimg/node:20.0
     working_directory: ~/gallery-authentication
     steps:
       # alias for git clone - getting the code
