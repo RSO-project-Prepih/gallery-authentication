@@ -5,15 +5,12 @@ const app = express();
 const port = 5000;
 
 const usersApi = require('./routes/users');
+const checkApi = require('./routes/check');
 
 require('./models/db');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.get('/', (req, res) => {
-    res.send('Auth service working!');
-});
 
 // CORS
 app.use("/auth", (req, res, next) => {
@@ -28,6 +25,9 @@ app.use("/auth", (req, res, next) => {
 
 // root path
 app.use('/auth', usersApi);
+
+// check api - health, liveness, readiness
+app.use('/check', checkApi);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
