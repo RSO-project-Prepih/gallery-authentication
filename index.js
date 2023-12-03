@@ -27,7 +27,7 @@ app.use("/auth", (req, res, next) => {
 app.use('/auth', usersApi);
 
 // check api - health, liveness, readiness
-app.use('/check', checkApi);
+app.use('/', checkApi);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
