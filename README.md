@@ -1,1 +1,1 @@
-# gallery-authentication
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/RSO-project-Prepih/gallery-authentication/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/RSO-project-Prepih/gallery-authentication/tree/main)
