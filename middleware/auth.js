@@ -3,30 +3,34 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/User');
 
 const protect = asyncHandler(async (req, res, next) => {
-    let token
+    let token;
 
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith('Bearer')
+    ) {
         try {
             // Get token from header
-            token = req.headers.authorization.split(' ')[1]
+            token = req.headers.authorization.split(' ')[1];
 
             // Verify token
-            const decoded = jwt.verify(token, process.env.JWT_SECRET)
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            console.log('Decoded: ', decoded);
 
             // Get user from the token
-            req.user = await User.findById(decoded.id).select('-password') // dont include the password
-            next()
-
+            req.user = await User.findByPk(decoded.id, {
+                attributes: { exclude: ['password'] },
+            }); // dont include the password
+            next();
         } catch (error) {
-            console.log(error)
-            res.status(401)
-            throw new Error('Not authorized')
+            res.status(401);
+            throw new Error('Not authorized');
         }
     }
 
     if (!token) {
-        res.status(401).json({message: 'Not authorized, no token'});
+        res.status(401).json({ message: 'Not authorized, no token' });
     }
 });
 
-module.exports = {protect}
+module.exports = { protect };
