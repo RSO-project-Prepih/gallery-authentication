@@ -1,13 +1,16 @@
 require('dotenv').config();
 const express = require('express');
 const promBundle = require('express-prom-bundle');
+const winston = require('winston');
 const usersApi = require('./routes/users');
 const checkApi = require('./routes/check');
 const metricsApi = require('./routes/metrics');
 
 const app = express();
 const port = 5000;
+const logger = require('./logger');
 
+// metrics middleware
 const metricsMiddleware = promBundle({
     includeMethod: true,
     includePath: true,
@@ -50,7 +53,7 @@ app.use('/metrics', metricsApi);
 app.use('/', checkApi);
 
 app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
+    logger.log({ level: 'info', message: `Listening on port ${port}` });
 });
 
 module.exports = {

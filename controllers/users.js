@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const { v4 } = require('uuid');
 const process = require('process');
+const logger = require('../logger');
 
 const register = asyncHandler(async (req, res) => {
     const { username, surname, password } = req.body;
@@ -27,10 +28,11 @@ const register = asyncHandler(async (req, res) => {
         surname,
         password: hashedPassword,
     }).catch((err) => {
-        console.log(err);
+        logger.log({ level: 'error', message: `Listening on port ${err}` });
     });
 
     if (user) {
+        logger.log({ level: 'info', message: 'New user created.' });
         return res.status(201).json({
             _id: user.id,
             username: user.username,
@@ -46,10 +48,11 @@ const login = asyncHandler(async (req, res) => {
     const { username, password } = req.body;
 
     const user = await User.findOne({ where: { username: username } }).catch(
-        (err) => console.log(err)
+        (err) => logger.log({ level: 'error', message: err })
     );
 
     if (user && (await bcrypt.compare(password, user.password))) {
+        logger.log({ level: 'info', message: `User ${username} log in` });
         return res.json({
             _id: user.id,
             username: user.username,
