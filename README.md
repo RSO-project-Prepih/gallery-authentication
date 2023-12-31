@@ -4,22 +4,25 @@ CI status: [![CircleCI](https://dl.circleci.com/status-badge/img/gh/RSO-project-
 
 ### Auth
 
-- <b>POST</b> /auth/login - login
-    - body example (JSON):
-    - {
+-   <b>POST</b> /auth/login - login
+    -   body example (JSON):
+    -   {
         "username": "jakob",
         "password": "123123"
-    } 
-- <b>POST</b> /auth/register - register new user
-    - body example (JSON):
-    - {
+        }
+-   <b>POST</b> /auth/register - register new user - body example (JSON): - {
     "username": "jakob",
     "surname": "dekleva",
     "password": "123123"
-}
-- <b>GET</b> /auth/users - get all users in db
+    }
+-   <b>GET</b> /auth/users - get all users in db
 
 ### Health
-- <b>GET</b> /live - liveness check
-- <b>GET</b> /ready - readiness check
 
+-   <b>GET</b> /live - liveness check
+-   <b>GET</b> /ready - readiness check
+
+### Metrics
+
+-   <b>GET</b> /procMetrics - Process and environment related metrics
+-   <b>GET</b> /ready - Database and custom metrics

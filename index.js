@@ -1,11 +1,29 @@
 require('dotenv').config();
 const express = require('express');
+const promBundle = require('express-prom-bundle');
+const usersApi = require('./routes/users');
+const checkApi = require('./routes/check');
+const metricsApi = require('./routes/metrics');
 
 const app = express();
 const port = 5000;
 
-const usersApi = require('./routes/users');
-const checkApi = require('./routes/check');
+const metricsMiddleware = promBundle({
+    includeMethod: true,
+    includePath: true,
+    includeStatusCode: true,
+    includeUp: true,
+    metricsPath: '/procMetrics',
+    customLabels: {
+        project_name: 'Gallery auth',
+        project_type: 'metrics',
+    },
+    promClient: {
+        collectDefaultMetrics: {},
+    },
+});
+
+app.use(metricsMiddleware);
 
 require('./models/db');
 
@@ -25,6 +43,8 @@ app.use('/auth', (req, res, next) => {
 
 // root path
 app.use('/auth', usersApi);
+
+app.use('/metrics', metricsApi);
 
 // check api - health, liveness, readiness
 app.use('/', checkApi);
