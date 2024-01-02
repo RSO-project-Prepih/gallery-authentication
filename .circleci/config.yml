@@ -15,12 +15,27 @@ jobs:
           command: npm install --save
       - run:
           name: Build Docker Image
-          command: docker build -t tinec/auth:latest .
+          command: docker build -t tinec/auth:${CIRCLE_SHA1} .
       - run:
           name: Push Docker Image
           command: |
             echo "$DOCKERHUB_ACCESS_TOKEN_TINE" | docker login --username $DOCKERHUB_USERNAME_TINE --password-stdin
-            docker push tinec/auth:latest
+            docker push tinec/auth:${CIRCLE_SHA1}
+      - run:
+          name: Update Helm Chart
+          command: |
+            git clone git@github.com:RSO-project-Prepih/kubernetis-GKE.git
+            cd kubernetis-GKE/auth-service
+            echo "Before sed command:"
+            cat ./values.yaml
+            sed -i 's|tag: .*|tag: '${CIRCLE_SHA1}'|' ./values.yaml
+            echo "After sed command:"
+            cat ./values.yaml
+            git config user.name "lovc21"
+            git config user.email "jakob.dekleva@gmail.com"
+            git add ./values.yaml
+            git commit -am "Update image tag to ${CIRCLE_SHA1}" || echo "No changes to commit"
+            git push origin main
 
 workflows:
   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
