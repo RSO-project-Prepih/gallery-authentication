@@ -5,7 +5,7 @@ const logger = require('../logger');
 
 const DB_URL = `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
 
-const sequelize = new Sequelize(DB_URL);
+const sequelize = new Sequelize(DB_URL, { logging: false, pool: { min: 0, max: 5, idle: 10000 } });
 let connectionAttempts = 1;
 
 const retryConnection = async (maxRetries, delay) => {
