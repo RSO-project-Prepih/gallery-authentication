@@ -6,6 +6,7 @@ const { v4 } = require('uuid');
 const process = require('process');
 const logger = require('../logger');
 
+
 const register = asyncHandler(async (req, res) => {
     const { username, surname, password } = req.body;
     const uuid = v4();
@@ -63,6 +64,29 @@ const login = asyncHandler(async (req, res) => {
     }
 });
 
+const deleteUser = async (req, res) => {
+    const userId = req.params.userId;
+    const user = await User.findByPk(userId);
+    await user.destroy();
+
+    return res.status(204).json({ id: userId });
+}
+
+const updateUser = async (req, res) => {
+    const userId = req.params.userId;
+    const user = await User.findByPk(userId);
+
+    if (req.body.username) {
+        user.username = req.body.username;
+    }
+    if (req.body.surname) {
+        user.surname = req.body.surname;
+    }
+
+    await user.save();
+    return res.status(201).json(user);
+}
+
 const getUsers = async (req, res) => {
     const users = await User.findAll();
     return res.status(200).json(users);
@@ -78,9 +102,31 @@ const generateToken = (id) => {
     });
 };
 
+deleteUser.apiDoc = {
+    summary: "Delete user.",
+    operationId: "deleteUser",
+    consumes: ["application/json"],
+    parameters: [
+        {
+            in: "query",
+            name: "userId",
+            required: true,
+            type: "string",
+        },
+    ],
+    responses: {
+        200: {
+          description: "Delete",
+        },
+    },
+}
+
+
 module.exports = {
     register,
     login,
     getMe,
     getUsers,
+    deleteUser,
+    updateUser,
 };

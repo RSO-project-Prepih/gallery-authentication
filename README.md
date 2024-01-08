@@ -26,3 +26,6 @@ CI status: [![CircleCI](https://dl.circleci.com/status-badge/img/gh/RSO-project-
 
 -   <b>GET</b> /procMetrics - Process and environment related metrics
 -   <b>GET</b> /metrics - Database and custom metrics
+
+### Docs
+-   <b>GET</b> /docs - REST API documentation
