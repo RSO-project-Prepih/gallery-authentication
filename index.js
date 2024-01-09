@@ -29,6 +29,7 @@ var swaggerOptions = {
         },
         servers: [
             { url: "http://localhost:5000/" },
+            { url: "http://34.140.187.81/"}
         ]
     },
     apis: [
@@ -43,7 +44,7 @@ const metricsMiddleware = promBundle({
     includePath: true,
     includeStatusCode: true,
     includeUp: true,
-    metricsPath: '/procMetrics',
+    metricsPath: '/metrics',
     customLabels: {
         project_name: 'Gallery auth',
         project_type: 'metrics',
@@ -63,7 +64,7 @@ app.use(express.urlencoded({ extended: true }));
 // CORS
 app.use('/auth', (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
+    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE', 'PATCH');
     res.header(
         'Access-Control-Allow-Headers',
         'Origin, X-Requested-With, Content-Type, Accept, Authorization'

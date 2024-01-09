@@ -3,6 +3,6 @@ const router = express.Router();
 
 const metricsController = require('../controllers/metrics');
 
-router.get('/', metricsController.metrics);
+router.get('/custom', metricsController.metrics);
 
 module.exports = router;

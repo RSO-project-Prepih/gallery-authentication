@@ -141,7 +141,6 @@ const logger = require('../logger');
  *  /metrics:
  *   get:
  *    summary: Metrics
- *    description: Database and custom metrics
  *    tags: [Health and metrics]
  *    responses:
  *     "200":
@@ -156,10 +155,9 @@ const logger = require('../logger');
 
 /**
  * @swagger
- *  /procMetrics:
+ *  /metrics/custom:
  *   get:
- *    summary: Proc metrics
- *    description: Process and environment related metrics
+ *    summary: Custom metrics
  *    tags: [Health and metrics]
  *    responses:
  *     "200":
