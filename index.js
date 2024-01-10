@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const promBundle = require('express-prom-bundle');
 const { graphqlHTTP } = require('express-graphql');
 const swaggerJsdoc = require('swagger-jsdoc');
@@ -63,6 +64,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS
+app.use(cors());
 app.use('/auth', (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, PATCH');
