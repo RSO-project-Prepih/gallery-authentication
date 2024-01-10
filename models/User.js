@@ -27,7 +27,7 @@ const logger = require('../logger');
  * @swagger
  * components:
  *  schemas:
- *   Error: 
+ *   Error:
  *    type: object
  *    description: Error details
  *    required:
@@ -37,7 +37,7 @@ const logger = require('../logger');
  *      type: string
  *    example:
  *     message: Parameters are mandatory
- *   
+ *
  *   UserSummary:
  *    type: object
  *    properties:
@@ -53,7 +53,7 @@ const logger = require('../logger');
  *     token:
  *      type: string
  *      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYjVjNzM2OGE0ZDA3YzBhN2RlNzUxZCIsImlhdCI6MTY1NjE3ODMyMSwiZXhwIjoxNjU4NzcwMzIxfQ.s42jeam1abBs_9whK2Ywpud8dN22_FPXWeylhsFti4Y
- *   
+ *
  *   UserMe:
  *    type: object
  *    properties:
@@ -66,7 +66,7 @@ const logger = require('../logger');
  *     surname:
  *      type: string
  *      example: doe
- *    
+ *
  *
  *   AddUserSchema:
  *    type: object
@@ -80,12 +80,12 @@ const logger = require('../logger');
  *     password:
  *      type: string
  *      example: 123123
- * 
+ *
  *    required:
  *     - username
  *     - surname
- *     - password  
- * 
+ *     - password
+ *
  *   LoginUserSchema:
  *    type: object
  *    properties:
@@ -95,12 +95,12 @@ const logger = require('../logger');
  *     password:
  *      type: string
  *      example: 123123
- * 
+ *
  *    required:
  *     - username
  *     - password
- * 
-*/
+ *
+ */
 
 /**
  * @swagger
@@ -111,12 +111,6 @@ const logger = require('../logger');
  *    responses:
  *     "200":
  *      description: liveness check data
- *      content:
- *       application/json:
- *        schema:
- *          $ref: "#/components/schemas/UserSummary"
- *     "400":
- *      description: Please enter all data / User exists
  */
 
 /**
@@ -128,12 +122,6 @@ const logger = require('../logger');
  *    responses:
  *     "200":
  *      description: Readiness check data
- *      content:
- *       application/json:
- *        schema:
- *          $ref: "#/components/schemas/UserSummary"
- *     "400":
- *      description: Please enter all data / User exists
  */
 
 /**
@@ -145,12 +133,6 @@ const logger = require('../logger');
  *    responses:
  *     "200":
  *      description: Metrics data
- *      content:
- *       application/json:
- *        schema:
- *          $ref: "#/components/schemas/UserSummary"
- *     "400":
- *      description: Please enter all data / User exists
  */
 
 /**
@@ -178,7 +160,7 @@ const logger = require('../logger');
  *    tags: [Users]
  *    requestBody:
  *     description: User data
- *     required: true 
+ *     required: true
  *     content:
  *      application/x-www-form-urlencoded:
  *       schema:
@@ -202,7 +184,7 @@ const logger = require('../logger');
  *    tags: [Users]
  *    requestBody:
  *     description: User data
- *     required: true 
+ *     required: true
  *     content:
  *      application/x-www-form-urlencoded:
  *       schema:
@@ -233,7 +215,7 @@ const logger = require('../logger');
  *       application/json:
  *        schema:
  *          $ref: "#/components/schemas/UserMe"
- *     
+ *
  *     "401":
  *      description: Authorization error.
  *      content:
@@ -243,7 +225,7 @@ const logger = require('../logger');
  *        examples:
  *         ni zetona:
  *          $ref: "#/components/examples/NoToken"
- *    
+ *
  */
 
 /**
@@ -255,7 +237,7 @@ const logger = require('../logger');
  *      - in: path
  *        name: userId
  *        required: true
- *        schema: 
+ *        schema:
  *          type: string
  *    tags: [Users]
  *    responses:
@@ -265,7 +247,7 @@ const logger = require('../logger');
  *       application/json:
  *        schema:
  *          $ref: "#/components/schemas/UserMe"
- *     
+ *
  *     "401":
  *      description: Authorization error.
  *      content:
@@ -275,49 +257,8 @@ const logger = require('../logger');
  *        examples:
  *         ni zetona:
  *          $ref: "#/components/examples/NoToken"
- * 
+ *
  */
-
-/**
- * @swagger
- *  /auth/users/{userId}:
- *   patch:
- *    summary: Update user
- *    parameters:
- *      - in: path
- *        name: userId
- *        required: true
- *        schema: 
- *          type: string
- *    content:
- *      application/json:
- *        schema:
- *          type: object
- *          properties:
- *            username:
- *              type: string
- *            surname:
- *              type: string
- *    tags: [Users]
- *    responses:
- *     "201":
- *      description: Successful request, user returned in response body
- *      content:
- *       application/json:
- *        schema:
- *          $ref: "#/components/schemas/UserMe"
- *     
- *     "401":
- *      description: Authorization error.
- *      content:
- *       application/json:
- *        schema:
- *         $ref: "#/components/schemas/Error"
- *        examples:
- *         ni zetona:
- *          $ref: "#/components/examples/NoToken"
- *    
-*/
 
 /**
  * @swagger
@@ -332,8 +273,8 @@ const logger = require('../logger');
  *       application/json:
  *        schema:
  *          $ref: "#/components/schemas/UserMe"
- *    
-*/
+ *
+ */
 
 const User = sequelize.define(
     'user',
